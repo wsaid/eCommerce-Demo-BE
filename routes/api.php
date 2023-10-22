@@ -12,4 +12,4 @@ Route::get('items', [ItemController::class, 'index']);
 
 Route::apiResource('cart', CartController::class);
 
-Route::post('place-order/{customer}', [OrderController::class, 'store']);
+Route::post('place-order', [OrderController::class, 'store']);

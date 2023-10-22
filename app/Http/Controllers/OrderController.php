@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function store(Customer $customer, CreateOrderRequest $request)
+    public function store(CreateOrderRequest $request)
     {
+        $customer = Customer::first();
+
         if ($customer->carts()->count() == 0) {
             return response()->json([
                 'data' => [],
@@ -42,6 +44,8 @@ class OrderController extends Controller
             $customer->carts()->delete();
 
             return response()->json([
+                'success' => true,
+                'order' => $order,
                 'store_credit' => $customer->store_credit
             ], Response::HTTP_CREATED);
 

@@ -13,22 +13,24 @@ use Illuminate\Http\Response;
 class CartController extends Controller
 {
     protected $cartService;
+    protected $customer;
 
     public function __construct(CartService $cartService)
     {
         $this->cartService = $cartService;
+        $this->customer = Customer::first();
     }
 
-    public function show(Customer $customer)
+    public function index()
     {
-        return new CartCollection(Cart::with('item')->whereCustomerId($customer->id)->get());
+        return new CartCollection(Cart::with('item')->whereCustomerId($this->customer->id)->get());
     }
 
-    public function store(Customer $customer, CreateCartRequest $request)
+    public function store(CreateCartRequest $request)
     {
         $validated = $request->validated();
 
-        $cart = Cart::where('customer_id', $customer->id)
+        $cart = Cart::where('customer_id', $this->customer->id)
             ->where('item_id', $validated['item_id'])
             ->first();
 
@@ -37,7 +39,7 @@ class CartController extends Controller
             return $cart;
         } 
         return response()->json([
-            'data' =>$customer->carts()->create($validated)
+            'data' => $this->customer->carts()->create($validated)
         ], Response::HTTP_CREATED);
     }
 

@@ -10,10 +10,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('items', [ItemController::class, 'index']);
 
-Route::get('cart/{customer}', [CartController::class, 'show']);
-
-Route::post('cart/{customer}', [CartController::class, 'store']);
-
 Route::apiResource('cart', CartController::class);
 
 Route::post('place-order/{customer}', [OrderController::class, 'store']);

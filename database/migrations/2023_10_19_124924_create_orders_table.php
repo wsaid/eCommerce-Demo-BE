@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Customer::class);
             $table->decimal('total', 10, 2);
-            $table->string('address');
-            $table->string('phone');
+            $table->string('address', 255);
+            $table->string('phone', 20);
             $table->timestamps();
         });
     }

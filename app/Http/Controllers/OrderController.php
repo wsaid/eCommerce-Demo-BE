@@ -12,6 +12,13 @@ class OrderController extends Controller
 {
     public function store(Customer $customer, CreateOrderRequest $request)
     {
+        if ($customer->carts()->count() == 0) {
+            return response()->json([
+                'data' => [],
+                'message' => 'No item found in shopping cart',
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
         $total = $customer->carts->sum('final_price');
 
         $validated = $request->validated();
